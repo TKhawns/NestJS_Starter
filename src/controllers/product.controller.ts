@@ -1,6 +1,7 @@
-import { Body, Controller, Get, Post, UsePipes, ValidationPipe } from "@nestjs/common";
+import { Body, Controller, Get, Post, UseGuards, UsePipes, ValidationPipe } from "@nestjs/common";
 import { ProductService } from "../services/product.service";
 import { ProductDTO } from "../dto/product.dto";
+import { AuthGuard } from "src/shared/auth.guard";
 
   @Controller()
   export class ProductController {
@@ -26,6 +27,12 @@ import { ProductDTO } from "../dto/product.dto";
     @Get('user/product-name')
     searchProduct(@Body('query') query: string) {
         return this.productService.searchProductByName(query);
+    }
+
+    @Get('user/product-list')
+    @UseGuards(new AuthGuard())
+    getAllProduct() {
+      return this.productService.getAllProduct();
     }
   }
   

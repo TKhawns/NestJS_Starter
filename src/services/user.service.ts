@@ -16,6 +16,11 @@ export class UserService {
     return user.toResponseObject(false);
   }
 
+  async refreshToken(refreshToken: string) {
+    let user = await this.userRepository.findOne({ where: { refreshToken: refreshToken } });
+    return user.toResponseObject(true, false);
+  }
+
   async login(data: UserDTO) {
     const { email, password } = data;
     let user = await this.userRepository.findOne({ where: { email } });

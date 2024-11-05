@@ -16,6 +16,11 @@ import { UserDTO } from "../dto/user.dto";
     login(@Body() data: UserDTO) {
       return this.userService.login(data);
     }
+
+    @Post('auth/refresh')
+    refreshToken(@Body('refreshToken') refreshToken: string) {
+      return this.userService.refreshToken(refreshToken);
+    }
   
     @Post('user/register')
     @UsePipes(new ValidationPipe())

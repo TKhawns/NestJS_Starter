@@ -42,4 +42,9 @@ export class ProductService {
         const product = await this.productRepository.findOne({where: {id}});
         return product.toResponseObject();
     }
+
+    async getAllProduct() {
+        const products = await this.productRepository.find();
+        return products.map((product) => product.toResponseObject());
+    }
 }

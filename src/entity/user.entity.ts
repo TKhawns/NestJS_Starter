@@ -30,7 +30,7 @@ export class UserEntity {
         return await bcrypt.compare(inputPass, this.password);
     }
 
-    toResponseObject(showToken: boolean =  true): UserRO {
+    toResponseObject(showToken: boolean =  true, isRefresh: boolean = true): UserRO {
         const {id, email, created, accessToken, refreshToken} = this;
         const responseObject: UserRO = {
             id,
@@ -51,14 +51,14 @@ export class UserEntity {
         }
         if (showToken) {
             responseObject.accessToken = this.accessToken;
-            responseObject.refreshToken = this.getRefreshToken;
+            if (isRefresh) responseObject.refreshToken = this.getRefreshToken;
         }
         return responseObject;
     }
 
     private get accessToken(): string {
         const {id, email} = this;
-        return jwt.sign({id, email}, process.env.SECRET_KEY, { expiresIn: '7d' },);
+        return jwt.sign({id, email}, process.env.SECRET_KEY, {expiresIn: '60s'});
     }
 
     private get getRefreshToken(): string {
