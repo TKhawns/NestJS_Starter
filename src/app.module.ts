@@ -5,12 +5,14 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import ormConfig from 'ormconfig';
 import { UserModule } from './modules/user.module';
 import { ProductModule } from './modules/product.module';
+import { ColorModule } from './modules/color.module';
 
 @Module({
   imports: [
     TypeOrmModule.forRoot(ormConfig),
     UserModule,
-    ProductModule
+    ProductModule,
+    ColorModule
   ],
   controllers: [AppController],
   providers: [AppService],

@@ -1,4 +1,4 @@
-import { Body, Controller, Post, UsePipes, ValidationPipe } from "@nestjs/common";
+import { Body, Controller, Post, Response, UsePipes, ValidationPipe } from "@nestjs/common";
 import { UserService } from "../services/user.service";
 import { UserDTO } from "../dto/user.dto";
 
@@ -13,8 +13,19 @@ import { UserDTO } from "../dto/user.dto";
   
     @Post('user/login')
     @UsePipes(new ValidationPipe())
-    login(@Body() data: UserDTO) {
-      return this.userService.login(data);
+    async login(@Body() data: UserDTO, @Response() res: any) {
+      const user = await this.userService.login(data);
+      res.cookie('accessToken', user.accessToken, {
+        expires: new Date(new Date().getTime() + 30 * 1000),
+        sameSite: 'strict',
+        httpOnly: true,
+      });
+      res.cookie('refreshToken', user.refreshToken, {
+        expires: new Date(new Date().getTime() + 30 * 1000),
+        sameSite: 'strict',
+        httpOnly: true,
+      });
+      return res.send(user);
     }
 
     @Post('auth/refresh')

@@ -58,7 +58,7 @@ export class UserEntity {
 
     private get accessToken(): string {
         const {id, email} = this;
-        return jwt.sign({id, email}, process.env.SECRET_KEY, {expiresIn: '60s'});
+        return jwt.sign({id, email}, process.env.SECRET_KEY, {expiresIn: '60m'});
     }
 
     private get getRefreshToken(): string {

@@ -7,7 +7,7 @@ import { HttpException, HttpStatus } from "@nestjs/common";
 export class ProductService {
     constructor(
         @InjectRepository(ProductEntity)
-        private productRepository: Repository<ProductEntity>,
+        private productRepository: Repository<ProductEntity>
     ) {}
 
     async searchProductByName(query: string) {
@@ -16,6 +16,12 @@ export class ProductService {
 
         return products.map(product => product.toResponseObject());
     }
+
+    async getListColor() {
+        const listColors = await this.productRepository.find();
+        return listColors.map(color => color.toResponseObject());
+    }
+    
 
     async createProduct(data: ProductDTO) {
         const {name} = data;
