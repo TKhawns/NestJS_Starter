@@ -1,5 +1,5 @@
 import { Controller, Get, UseGuards } from "@nestjs/common";
-import { AuthGuard } from "src/shared/auth.guard";
+import { AuthGuard } from "src/guard/auth.guard";
 import { ColorService } from "src/services/color.service";
 
   @Controller()
